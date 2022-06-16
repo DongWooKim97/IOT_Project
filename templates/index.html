@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>김동우 텀프로젝트</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+	<div class="wrap">
+		<div id="video">
+            <!-- <img src="{{ url_for('video_on') }}"> -->
+		</div>
+        
+        <div id="result">
+            
+        </div>
+	</div>
+    <div class="btn">
+        <button onclick="ring_on()"class="ring">Ring Alarm!</button>
+        <button onclick="video_on()"class="video">Show Video!</button>
+        <button onclick="door_on()"class="open">Open Door!</button>
+        <button onclick="door_close()"class="close">Close Door!</button>
+    </div>
+
+    <script>
+        function ring_on() {
+            fetch("/ring/on")
+            .then(response => {console.log(response); return response.text()})
+            .then(data => {
+                let result = document.querySelector('#result');
+                if(data === "ok"){
+                    result.innerHTML = "<h1>Ring the alarm!</h1>";
+                }else{
+                    result.innerHTML = "<h1>Alarm Error</h1>";
+                }
+            })
+        }
+        function door_on() {
+            fetch("/door/on")
+            .then(response => {console.log(response); return response.text()})
+            .then(data => {
+                let result = document.querySelector('#result');
+                if(data === "ok"){
+                    result.innerHTML = "<h1>Door is open!</h1>";
+                }else{
+                    result.innerHTML = "<h1>Door Open error</h1>"
+                }
+            })
+        }
+        function door_close(){
+            fetch("/door/close")
+            .then(response => {console.log(response); return response.text()})
+            .then(data => {
+                let result = document.querySelector('#result');
+                if(data === "ok"){
+                    result.innerHTML = "<h1>Door is off!</h1>";
+                }else{
+                    result.innerHTML = "<h1>Door close Error</h1>"
+                }
+            })
+        }
+        function video_on(){
+            let screen = document.querySelector('#video');
+            let screen_sys = "<img src='{{url_for('video_on')}}' />"
+            screen.innerHTML = screen_sys;
+
+            let result = document.querySelector('#result');
+            result.innerHTML = "<h1>Video is showing!</h1>";
+        }
+    </script>
+</body>
+</html>
