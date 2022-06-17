@@ -7,20 +7,14 @@ import time
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 SERVO_PIN = 26
-PUSH_PIN = 15
 ALARM_PIN = 18
 flag = 0
 
 GPIO.setup(PUSH_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(SERVO_PIN, GPIO.OUT)
 GPIO.setup(ALARM_PIN, GPIO.OUT)
-
-
-
 
 servo = GPIO.PWM(SERVO_PIN, 50)
 servo.start(0)
-
 
 app = Flask(__name__)
 @app.route('/')
@@ -36,12 +30,6 @@ def gen(camera):
 @app.route('/video_on')
 def video_on():
     return Response(gen(Camera()),mimetype='multipart/x-mixed-replace; boundary=frame')
-    # try:
-    #     return "ok"
-    # except:
-    #     return "fail"
-    
-
 @app.route('/door/on')
 def door_on():
     global flag
